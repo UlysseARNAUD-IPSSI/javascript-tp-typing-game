@@ -22,7 +22,7 @@ export class TypingGame {
 
         const score = 0
         const niveau = 1;
-        
+
         this.score = score;
         this.niveau = niveau;
 
