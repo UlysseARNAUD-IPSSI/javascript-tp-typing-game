@@ -2,8 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="Clone du jeu Typing game">
     <title>Typing game</title>
@@ -13,80 +12,80 @@
 </head>
 <body>
 
-    <section data-name="introduction" class="show">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h1>Typing game</h1>
-                    <div class="grid-buttons">
-                        <a href="#jouer">Jouer</a>
-                        <a href="#leaderboard">Tableau des scores</a>
-                    </div>
+<section data-name="introduction" class="show">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Typing game</h1>
+                <div class="grid-buttons">
+                    <a href="#jouer">Jouer</a>
+                    <a href="#leaderboard">Tableau des scores</a>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section data-name="jouer">
-        <div class="container">
-            <div class="row row-game-actions mb-5">
-                <div class="col-12">
-                    <button class="btn btn-outline-danger" data-name="exit">Quitter</button>
-                </div>
-            </div>
-            <div class="row mb-5">
-                <div class="col-12">
-                    <h1>Typing game</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <p>Ecrivez le mot suivant en <span data-name="secondes-limite" data-dynamic></span> secondes : </p>
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col-12">
-                    <p><span data-dynamic data-name="mot-actuel"></span></p>
-                </div>
-            </div>
-            <div class="row mb-4">
-                <div class="col-md-4 col-12">
-                    <input class="form-control" type="text" name="mot-utilisateur" placeholder="Commencez à écrire...">
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-12">
-                    <p><span data-dynamic data-name="status">Oh non!</span></p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-12">
-                    <p>Temps restants : <span data-name="secondes-restantes" data-dynamic></span> secondes</p>
-                </div>
-                <div class="col-md-4 col-12">
-                    <p>Niveau : <span data-name="niveau" data-dynamic></span></p>
-                </div>
-                <div class="col-md-4 col-12">
-                    <p>Score : <span data-name="score" data-dynamic></span></p>
-                </div>
+<section data-name="jouer">
+    <div class="container">
+        <div class="row row-game-actions mb-5">
+            <div class="col-12">
+                <button class="btn btn-outline-danger" data-name="exit">Quitter</button>
             </div>
         </div>
-    </section>
-
-    <section data-name="leaderboard">
-        <div class="container">
-            <div class="row mb-5">
-            </div>
-            <div class="row">
-                <div class="col-12 d-flex">
-                    <button class="btn btn-secondary mr-3" data-name="back">< Retour</button>
-                    <h1>Tableau des scores</h1>
-                </div>
+        <div class="row mb-5">
+            <div class="col-12">
+                <h1>Typing game</h1>
             </div>
         </div>
-    </section>
+        <div class="row">
+            <div class="col-12">
+                <p>Ecrivez le mot suivant en <span data-name="secondes-limite" data-dynamic></span> secondes : </p>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-12">
+                <p><span data-dynamic data-name="mot-actuel"></span></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-4 col-12">
+                <input class="form-control" type="text" name="mot-utilisateur" placeholder="Commencez à écrire...">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-12">
+                <p><span data-dynamic data-name="status">Oh non!</span></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-12">
+                <p>Temps restants : <span data-name="secondes-restantes" data-dynamic></span> secondes</p>
+            </div>
+            <div class="col-md-4 col-12">
+                <p>Niveau : <span data-name="niveau" data-dynamic></span></p>
+            </div>
+            <div class="col-md-4 col-12">
+                <p>Score : <span data-name="score" data-dynamic></span></p>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <script src="js/index.js" type="module"></script>
+<section data-name="leaderboard">
+    <div class="container">
+        <div class="row mb-5">
+        </div>
+        <div class="row">
+            <div class="col-12 d-flex">
+                <button class="btn btn-secondary mr-3" data-name="back">< Retour</button>
+                <h1>Tableau des scores</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="js/index.js" type="module"></script>
 
 </body>
 </html>
