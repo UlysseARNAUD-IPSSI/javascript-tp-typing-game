@@ -6,3 +6,7 @@ section[data-name="jouer"] {
     align-items: center;
     flex-direction: column;
 }
+
+section[data-name="jouer"] span[data-name="mot-actuel"] {
+    font-size: 2rem;
+}

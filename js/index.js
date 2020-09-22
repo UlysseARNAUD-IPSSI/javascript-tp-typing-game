@@ -1,6 +1,8 @@
 import {TypingGame} from "./TypingGame/index.js";
 import {MyModalElement} from "./components/my-modal/index.js";
 import {generateEntryElement} from "./shared/_generateEntryElement.js";
+import {sortEntries} from "./shared/_sortEntries.js";
+import {getEntries} from "./shared/_getEntries.js";
 
 document.addEventListener('DOMContentLoaded', event => {
     const introductionSection = document.querySelector('section[data-name="introduction"]');
@@ -82,18 +84,13 @@ window.saveScoreFromModalEndGame = function (event, {game = _game} = {}) {
 
     const entry = {pseudo, score, niveau, date};
 
-    let entries = JSON.parse(localStorage.getItem('entries'));
-    if (null === entries) {
-        entries = [];
-        localStorage.setItem('entries', JSON.stringify(entries));
-    }
+    let entries = getEntries();
 
     entries.push(entry);
 
     localStorage.setItem('entries', JSON.stringify(entries));
 
     submitButton.innerHTML = "Enregistré !";
-
 }
 
 window.replayGameFromModalEndGame = function (event, {game = _game} = {}) {
@@ -163,21 +160,17 @@ function initializeLeaderboard() {
         }, 0);
     }
 
-    let entries = localStorage.getItem('entries');
-    if (null === entries) {
-        entries = [];
-        localStorage.setItem('entries', JSON.stringify(entries));
-    } else {
-        entries = JSON.parse(entries);
-    }
+    let entries = getEntries();
 
     console.log({entries});
 
-    const sortEntries = entries.sort(function (a, b) {
-        if (a.score === b.score) return a.date - b.date
+    const entriesSorted = sortEntries();
+
+    /*const sortEntries = entries.sort((a, b) => {
+        if (a.score === b.score) return parseInt(a.date) - parseInt(b.date);
         return parseInt(b.score) - parseInt(a.score);
     });
-    console.log({sortEntries});
+    console.log({sortEntries});*/
 
     const table = section.querySelector('table tbody');
     table.innerHTML = '';
@@ -187,7 +180,7 @@ function initializeLeaderboard() {
         cursor < cursorMax;
         cursor++
     ) {
-        const entry = entries[cursor];
+        const entry = entriesSorted[cursor];
         const {pseudo, date, score, niveau} = entry;
         const entryElement = generateEntryElement();
         entryElement.then(element => {
@@ -222,12 +215,6 @@ function initializeStatistiques() {
         }, 0);
     }
 
-    let entries = localStorage.getItem('entries');
-    if (null === entries) {
-        entries = [];
-        localStorage.setItem('entries', JSON.stringify(entries));
-    }
-    entries = JSON.parse(entries) || entries;
-    console.log({entries});
+    let entries = getEntries();
 
 }

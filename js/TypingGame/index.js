@@ -323,15 +323,32 @@ export class TypingGame {
     enableInputForUser() {
         const section = document.querySelector('section[data-name="jouer"]');
         const input = section.querySelector('input[name="mot-utilisateur"]');
-        input.addEventListener('keypress', event => {
+        input.addEventListener('keydown', event => {
             const {target, key} = event;
             const {value, selectionStart} = target;
+
+            if (1 < key.length) return;
+
             const word = document.querySelector('span[data-name="mot-actuel"]').innerHTML;
             let currentValue = value.substring(0, selectionStart) + key + value.substring(selectionStart);
-            if (word === currentValue) {
+            let currentValueWithoutAccent = currentValue.normalize("NFD").replace(/[\u0300-\u036f]/g, '');;
+            if (currentValueWithoutAccent !== currentValue) {
+                setTimeout(function() {
+                    currentValue = currentValueWithoutAccent.substring(0, selectionStart) + currentValueWithoutAccent.substring(selectionStart);
+                    input.value = currentValue;
+                }, 0);
+            }
+            let currentWordWithoutAccentInLowerCase = currentValueWithoutAccent.toLowerCase();
+            if (currentValueWithoutAccent !== currentWordWithoutAccentInLowerCase) {
+                setTimeout(function(){
+                    input.value = currentWordWithoutAccentInLowerCase;
+                },0)
+            }
+            if (word === currentWordWithoutAccentInLowerCase) {
                 this.nextWord();
                 setTimeout(function () {
                     const position = target.selectionStart;
+                    input.value = '';
                     input.value = input.value.substring(0, position - 1) + input.value.substring(position + 1);
                 }, 0);
             }
