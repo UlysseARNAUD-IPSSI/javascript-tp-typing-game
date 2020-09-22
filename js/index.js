@@ -140,16 +140,16 @@ function initializeLeaderboard() {
 
     const entries = JSON.parse(localStorage.getItem('entries'));
     const sortEntries = entries.sort(function(a,b) {
-        return parseInt(a.score) - parseInt(b.score);
+        if (a.score === b.score) return a.date - b.date
+        return parseInt(b.score) - parseInt(a.score);
     });
     console.log({sortEntries});
 
-    // addEntries in leaderboard table
     for (
         let cursor = 0, cursorMax = Math.min(10, entries.length);
         cursor < cursorMax;
         cursor++
     ) {
-
+        // addEntries in leaderboard table
     }
 }

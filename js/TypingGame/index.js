@@ -20,11 +20,10 @@ export class TypingGame {
         } = {}
     ) {
 
-        const score = 0;
-        const niveau = 1;
-
-        this.score = score;
-        this.niveau = niveau;
+        this.score = 0;
+        this.updateDynamicValue('score');
+        this.niveau = 1;
+        this.updateDynamicValue('niveau');
 
         this.scoreEachLevel = scoreEachLevel;
 
@@ -193,12 +192,6 @@ export class TypingGame {
         const niveau = this.niveau;
         const score = this.score;
 
-        this.niveau = 1;
-        this.dynamicValues['niveau'] = 1;
-
-        this.score = 0;
-        this.dynamicValues['score'] = 0;
-
         const modalEndGame = generateModalEndGame();
         modalEndGame.then(modal => {
 
@@ -240,8 +233,6 @@ export class TypingGame {
             const niveau = this.dynamicValues.niveau + 1;
             this.dynamicValues['niveau'] = niveau;
             this.updateDynamicValue('niveau');
-
-            this.niveau = niveau;
 
             const secondsLimit = Math.max(this.secondsLimitMin, Math.min(this.originalSecondsLimit, this.secondsLimit - 1));
             this.secondsLimit = secondsLimit;
