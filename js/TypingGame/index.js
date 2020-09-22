@@ -2,6 +2,8 @@ import {generateModalEndGame} from "../shared/_generateModalEndGame.js";
 
 export class TypingGame {
 
+    static singleton;
+
     dynamicValues;
     dynamicValuesElement;
     secondsLimit;
@@ -20,30 +22,45 @@ export class TypingGame {
         } = {}
     ) {
 
-        const score = 0
-        const niveau = 1;
+        if (this.singleton) {
+            return this.singleton;
+        }
 
-        this.score = score;
-        this.niveau = niveau;
+        this.singleton = this;
 
         this.scoreEachLevel = scoreEachLevel;
-
-        this.dynamicValues = {};
-        this.dynamicValues['secondes-limite'] = secondsLimit;
-        this.dynamicValues['secondes-restantes'] = secondsLimit + 1;
-        this.dynamicValues['status'] = "Bonjour !";
-        this.dynamicValues['score'] = score;
-        this.dynamicValues['niveau'] = niveau;
-
-        this.dynamicValuesElement = document.querySelectorAll('span[data-dynamic]');
         this.originalSecondsLimit = secondsLimit;
         this.secondsLimitMin = secondsLimitMin;
-        this.secondsLimit = secondsLimit;
+
+        this.dynamicValues = {};
+        this.dynamicValues['status'] = "Bonjour !";
+
+    }
+
+    start() {
+
+        this.niveau = 1;
+        this.score = 0;
+
+        this.secondsLimit = this.originalSecondsLimit;
+
+        this.dynamicValues['secondes-limite'] = this.secondsLimit;
+        this.dynamicValues['secondes-restantes'] = this.secondsLimit + 1;
+        this.dynamicValues['score'] = this.score;
+        this.dynamicValues['niveau'] = this.niveau;
+
+        this.dynamicValuesElement = document.querySelectorAll('span[data-dynamic]');
 
         this.words = [];
         this.initializeWords();
 
         this.updateDynamicValues();
+
+        setTimeout(function() {
+            const inputMotUtilisateur = document.querySelector('input[name="mot-utilisateur"]');
+            inputMotUtilisateur.classList.remove('disabled');
+            inputMotUtilisateur.disabled = false;
+        });
     }
 
     updateDynamicValues() {
@@ -116,11 +133,11 @@ export class TypingGame {
                 return self.indexOf(value) === index && 3 < value.length;
             });
             this.words = words;
-            this.start();
+            this._start();
         })
     }
 
-    start() {
+    _start() {
         this.setWord();
         this.startCountdown();
         this.enableInputForUser();
@@ -232,12 +249,12 @@ export class TypingGame {
         const isLevelUp = 0 === score % this.scoreEachLevel && 1 < score;
         if (true === isLevelUp) {
             const niveau = this.dynamicValues.niveau + 1;
+            this.niveau = niveau;
             this.dynamicValues['niveau'] = niveau;
             this.updateDynamicValue('niveau');
 
             const secondsLimit = Math.max(this.secondsLimitMin, Math.min(this.originalSecondsLimit, this.secondsLimit - 1));
-            this.secondsLimit = secondsLimit;
-            this.resetTimeRemaining();
+            this.resetTimeRemaining({secondsLimit});
             this.dynamicValues['secondes-limite'] = secondsLimit;
             this.updateDynamicValue('secondes-limite');
 
@@ -274,10 +291,31 @@ export class TypingGame {
         this.updateDynamicValue('status');
     }
 
-    resetTimeRemaining() {
-        const secondsLimit = this.secondsLimit;
+    resetTimeRemaining({secondsLimit = this.secondsLimit} = {}) {
+        this.secondsLimit = secondsLimit;
         this.dynamicValues['secondes-restantes'] = secondsLimit;
         this.updateDynamicValue('secondes-restantes');
+    }
+
+    resetTimeLimit({secondsLimit = this.originalSecondsLimit} = {}) {
+        this.secondsLimit = secondsLimit;
+        this.dynamicValues['secondes-restantes'] = secondsLimit;
+        this.updateDynamicValue('secondes-restantes');
+    }
+
+    resetGame({} = {}) {
+        // Niveau
+        this.niveau = 1;
+        this.dynamicValues['niveau'] = this.niveau;
+        this.updateDynamicValue('niveau');
+        // Score
+        this.score = 0;
+        this.dynamicValues['score'] = this.score;
+        this.updateDynamicValue('score');
+        // Temps restants
+        this.resetTimeRemaining();
+        // Temps limite
+        this.resetTimeLimit();
     }
 
     enableInputForUser() {

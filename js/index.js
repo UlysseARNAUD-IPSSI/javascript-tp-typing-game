@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', event => {
         const link = links[cursor];
         link.addEventListener('click', event => onClickLink(event));
     }
+
+    window._game = new TypingGame;
 });
 
 function onClickLink(event) {
@@ -43,7 +45,7 @@ function onClickLink(event) {
     }
 }
 
-window.saveScoreFromModalEndGame = function(event) {
+window.saveScoreFromModalEndGame = function(event, {game = _game} = {}) {
     const {target} = event;
 
     const modal = target.closest('my-modal');
@@ -79,16 +81,17 @@ window.saveScoreFromModalEndGame = function(event) {
 
 }
 
-window.replayGameFromModalEndGame = function(event) {
+window.replayGameFromModalEndGame = function(event, {game = _game} = {}) {
     const {target} = event;
 
     const modal = target.closest('my-modal');
 
     modal.remove();
-    initializeTypingGame();
+    _game.dynamicValues['status'] = "Faite tout pour vous surpasser !"
+    _game.start();
 }
 
-window.quitGameFromModalEndGame = function(event) {
+window.quitGameFromModalEndGame = function(event, {game = _game} = {}) {
     const {target} = event;
 
     const modal = target.closest('my-modal');
@@ -106,7 +109,7 @@ window.quitGameFromModalEndGame = function(event) {
 function initializeTypingGame() {
     const section = document.querySelector(`section[data-name="jouer"]`);
 
-    const typingGame = new TypingGame;
+    _game.start();
 
     const inputMotUtilisateur = section.querySelector('input[name="mot-utilisateur"]');
     setTimeout(function() {
@@ -119,7 +122,7 @@ function initializeTypingGame() {
     exitButton.onclick = function(event) {
         event.preventDefault();
         event.stopPropagation();
-        typingGame.end();
+        _game.end();
     }
 }
 
