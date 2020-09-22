@@ -1,6 +1,6 @@
-export async function generateModalEndGame() {
+export async function generateEntryElement() {
     const template = document.createElement('template');
-    return await fetch('html/components/my-modal/modal-end-game.html')
+    return await fetch('html/sections/leaderboard/entry.html')
         .then(response => {
             return response.text();
         }).then(response => {

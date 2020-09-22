@@ -1,5 +1,6 @@
 import {TypingGame} from "./TypingGame/index.js";
 import {MyModalElement} from "./components/my-modal/index.js";
+import {generateEntryElement} from "./shared/_generateEntryElement.js";
 
 document.addEventListener('DOMContentLoaded', event => {
     const introductionSection = document.querySelector('section[data-name="introduction"]');
@@ -42,14 +43,16 @@ function onClickLink(event) {
 
     if ('leaderboard' === sectionName) {
         initializeLeaderboard();
+        return;
     }
 
     if ('statistiques' === sectionName) {
         initializeStatistiques();
+        return;
     }
 }
 
-window.saveScoreFromModalEndGame = function(event, {game = _game} = {}) {
+window.saveScoreFromModalEndGame = function (event, {game = _game} = {}) {
     const {target} = event;
 
     const modal = target.closest('my-modal');
@@ -77,9 +80,9 @@ window.saveScoreFromModalEndGame = function(event, {game = _game} = {}) {
         // TODO: creer une notif / alerte pour prevenir que le pseudo est invalide.
     }
 
-    const entry = { pseudo, score, niveau, date };
+    const entry = {pseudo, score, niveau, date};
 
-    let entries = JSON.parse( localStorage.getItem('entries') );
+    let entries = JSON.parse(localStorage.getItem('entries'));
     if (null === entries) {
         entries = [];
         localStorage.setItem('entries', JSON.stringify(entries));
@@ -93,7 +96,7 @@ window.saveScoreFromModalEndGame = function(event, {game = _game} = {}) {
 
 }
 
-window.replayGameFromModalEndGame = function(event, {game = _game} = {}) {
+window.replayGameFromModalEndGame = function (event, {game = _game} = {}) {
     const {target} = event;
 
     const modal = target.closest('my-modal');
@@ -110,7 +113,7 @@ window.replayGameFromModalEndGame = function(event, {game = _game} = {}) {
     _game.start();
 }
 
-window.quitGameFromModalEndGame = function(event, {game = _game} = {}) {
+window.quitGameFromModalEndGame = function (event, {game = _game} = {}) {
     const {target} = event;
 
     const modal = target.closest('my-modal');
@@ -119,7 +122,7 @@ window.quitGameFromModalEndGame = function(event, {game = _game} = {}) {
     const jouerSection = document.querySelector('section[data-name="jouer"]');
     const introductionSection = document.querySelector('section[data-name="introduction"]');
 
-    setTimeout(function() {
+    setTimeout(function () {
         jouerSection.classList.remove('show');
         introductionSection.classList.add('show');
     }, 0);
@@ -131,14 +134,14 @@ function initializeTypingGame() {
     _game.start();
 
     const inputMotUtilisateur = section.querySelector('input[name="mot-utilisateur"]');
-    setTimeout(function() {
+    setTimeout(function () {
         inputMotUtilisateur.disabled = false;
         inputMotUtilisateur.classList.remove('disabled');
         inputMotUtilisateur.value = "";
     }, 0);
 
     const exitButton = section.querySelector('button[data-name="exit"]');
-    exitButton.onclick = function(event) {
+    exitButton.onclick = function (event) {
         event.preventDefault();
         event.stopPropagation();
         _game.end();
@@ -150,29 +153,57 @@ function initializeLeaderboard() {
     const introductionSection = document.querySelector('section[data-name="introduction"]');
 
     const backButton = section.querySelector('button[data-name="back"]');
-    backButton.onclick = function(event) {
+    backButton.onclick = function (event) {
         event.preventDefault();
         event.stopPropagation();
 
-        setTimeout(function() {
+        setTimeout(function () {
             section.classList.remove('show');
             introductionSection.classList.add('show');
         }, 0);
     }
 
-    const entries = JSON.parse(localStorage.getItem('entries'));
-    const sortEntries = entries.sort(function(a,b) {
+    let entries = localStorage.getItem('entries');
+    if (null === entries) {
+        entries = [];
+        localStorage.setItem('entries', JSON.stringify(entries));
+    } else {
+        entries = JSON.parse(entries);
+    }
+
+    console.log({entries});
+
+    const sortEntries = entries.sort(function (a, b) {
         if (a.score === b.score) return a.date - b.date
         return parseInt(b.score) - parseInt(a.score);
     });
     console.log({sortEntries});
+
+    const table = section.querySelector('table tbody');
+    table.innerHTML = '';
 
     for (
         let cursor = 0, cursorMax = Math.min(10, entries.length);
         cursor < cursorMax;
         cursor++
     ) {
-        // addEntries in leaderboard table
+        const entry = entries[cursor];
+        const {pseudo, date, score, niveau} = entry;
+        const entryElement = generateEntryElement();
+        entryElement.then(element => {
+
+            const cellPseudo = element.querySelector('td[data-name="pseudo"]');
+            const cellDate = element.querySelector('td[data-name="date"]');
+            const cellNiveau = element.querySelector('td[data-name="niveau"]');
+            const cellScore = element.querySelector('td[data-name="score"]');
+
+            cellPseudo.innerHTML = entry.pseudo;
+            cellDate.innerHTML = entry.date;
+            cellNiveau.innerHTML = entry.niveau;
+            cellScore.innerHTML = entry.score;
+
+            table.appendChild(element);
+        });
     }
 }
 
@@ -181,14 +212,22 @@ function initializeStatistiques() {
     const introductionSection = document.querySelector('section[data-name="introduction"]');
 
     const backButton = section.querySelector('button[data-name="back"]');
-    backButton.onclick = function(event) {
+    backButton.onclick = function (event) {
         event.preventDefault();
         event.stopPropagation();
 
-        setTimeout(function() {
+        setTimeout(function () {
             section.classList.remove('show');
             introductionSection.classList.add('show');
         }, 0);
     }
+
+    let entries = localStorage.getItem('entries');
+    if (null === entries) {
+        entries = [];
+        localStorage.setItem('entries', JSON.stringify(entries));
+    }
+    entries = JSON.parse(entries) || entries;
+    console.log({entries});
 
 }
