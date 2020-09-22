@@ -20,9 +20,12 @@ export class TypingGame {
         } = {}
     ) {
 
-        this.score = 0;
-        this.niveau = 1;
+        const score = 0
+        const niveau = 1;
         
+        this.score = score;
+        this.niveau = niveau;
+
         this.scoreEachLevel = scoreEachLevel;
 
         this.dynamicValues = {};
