@@ -16,7 +16,7 @@ export class TypingGame {
         {
             secondsLimit = 15,
             secondsLimitMin = 3,
-            scoreEachLevel = 15
+            scoreEachLevel = 8
         } = {}
     ) {
 
@@ -235,9 +235,8 @@ export class TypingGame {
 
             const secondsLimit = Math.max(this.secondsLimitMin, Math.min(this.originalSecondsLimit, this.secondsLimit - 1));
             this.secondsLimit = secondsLimit;
-            this.dynamicValues['secondes-restantes'] = secondsLimit;
+            this.resetTimeRemaining();
             this.dynamicValues['secondes-limite'] = secondsLimit;
-            this.updateDynamicValue('secondes-restantes');
             this.updateDynamicValue('secondes-limite');
 
             const messages = [
