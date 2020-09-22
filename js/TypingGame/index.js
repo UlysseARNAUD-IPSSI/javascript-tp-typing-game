@@ -21,10 +21,8 @@ export class TypingGame {
     ) {
 
         this.score = 0;
-        this.updateDynamicValue('score');
         this.niveau = 1;
-        this.updateDynamicValue('niveau');
-
+        
         this.scoreEachLevel = scoreEachLevel;
 
         this.dynamicValues = {};
