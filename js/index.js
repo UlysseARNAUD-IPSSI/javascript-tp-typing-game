@@ -43,6 +43,10 @@ function onClickLink(event) {
     if ('leaderboard' === sectionName) {
         initializeLeaderboard();
     }
+
+    if ('statistiques' === sectionName) {
+        initializeStatistiques();
+    }
 }
 
 window.saveScoreFromModalEndGame = function(event, {game = _game} = {}) {
@@ -170,4 +174,21 @@ function initializeLeaderboard() {
     ) {
         // addEntries in leaderboard table
     }
+}
+
+function initializeStatistiques() {
+    const section = document.querySelector(`section[data-name="statistiques"]`);
+    const introductionSection = document.querySelector('section[data-name="introduction"]');
+
+    const backButton = section.querySelector('button[data-name="back"]');
+    backButton.onclick = function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        setTimeout(function() {
+            section.classList.remove('show');
+            introductionSection.classList.add('show');
+        }, 0);
+    }
+
 }
