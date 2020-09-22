@@ -137,4 +137,19 @@ function initializeLeaderboard() {
             introductionSection.classList.add('show');
         }, 0);
     }
+
+    const entries = JSON.parse(localStorage.getItem('entries'));
+    const sortEntries = entries.sort(function(a,b) {
+        return parseInt(a.score) - parseInt(b.score);
+    });
+    console.log({sortEntries});
+
+    // addEntries in leaderboard table
+    for (
+        let cursor = 0, cursorMax = Math.min(10, entries.length);
+        cursor < cursorMax;
+        cursor++
+    ) {
+
+    }
 }

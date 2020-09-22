@@ -193,6 +193,12 @@ export class TypingGame {
         const niveau = this.niveau;
         const score = this.score;
 
+        this.niveau = 1;
+        this.dynamicValues['niveau'] = 1;
+
+        this.score = 0;
+        this.dynamicValues['score'] = 0;
+
         const modalEndGame = generateModalEndGame();
         modalEndGame.then(modal => {
 
@@ -223,15 +229,19 @@ export class TypingGame {
     }
 
     nextWord() {
-        const score = this.dynamicValues.score;
-        this.dynamicValues['score'] = score + 1;
+        const score = this.dynamicValues.score + 1;
+        this.dynamicValues['score'] = score;
         this.updateDynamicValue('score');
+
+        this.score = score;
 
         const isLevelUp = 0 === score % this.scoreEachLevel && 1 < score;
         if (true === isLevelUp) {
-            const niveau = this.dynamicValues.niveau;
-            this.dynamicValues['niveau'] = niveau + 1;
+            const niveau = this.dynamicValues.niveau + 1;
+            this.dynamicValues['niveau'] = niveau;
             this.updateDynamicValue('niveau');
+
+            this.niveau = niveau;
 
             const secondsLimit = Math.max(this.secondsLimitMin, Math.min(this.originalSecondsLimit, this.secondsLimit - 1));
             this.secondsLimit = secondsLimit;
