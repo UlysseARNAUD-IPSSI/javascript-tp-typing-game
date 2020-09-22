@@ -52,6 +52,18 @@ window.saveScoreFromModalEndGame = function(event, {game = _game} = {}) {
     const form = modal.querySelector('form[data-name="save-score"]');
     const formData = new FormData(form);
 
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.classList.add('disabled');
+
+    const canSave = localStorage.getItem('can-save');
+    console.log({canSave})
+    if ("false" === canSave) {
+        submitButton.innerHTML = "Déjà enregistré !";
+        return;
+    }
+    localStorage.setItem('can-save', false);
+
     const pseudo = formData.get('pseudo');
     const score = formData.get('score');
     const niveau = formData.get('niveau');
@@ -73,10 +85,6 @@ window.saveScoreFromModalEndGame = function(event, {game = _game} = {}) {
 
     localStorage.setItem('entries', JSON.stringify(entries));
 
-    const submitButton = form.querySelector('button[type="submit"]');
-    submitButton.disabled = true;
-    submitButton.classList.add('disabled');
-
     submitButton.innerHTML = "Enregistré !";
 
 }
@@ -87,7 +95,14 @@ window.replayGameFromModalEndGame = function(event, {game = _game} = {}) {
     const modal = target.closest('my-modal');
 
     modal.remove();
-    _game.dynamicValues['status'] = "Faite tout pour vous surpasser !"
+
+    const messages = [
+        'Faite tout pour vous surpasser !',
+        "C'est reparti !"
+    ];
+    const positionAleatoire = Math.floor(Math.random() * messages.length);
+    const messageAleatoire = messages[positionAleatoire];
+    _game.dynamicValues['status'] = messageAleatoire;
     _game.start();
 }
 

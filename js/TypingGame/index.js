@@ -61,6 +61,8 @@ export class TypingGame {
             inputMotUtilisateur.classList.remove('disabled');
             inputMotUtilisateur.disabled = false;
         });
+
+        localStorage.setItem('can-save', true);
     }
 
     updateDynamicValues() {
