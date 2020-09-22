@@ -1,5 +1,5 @@
 import {TypingGame} from "./TypingGame/index.js";
-// import {MyModalElement} from "./components/my-modal/index.js";
+import {MyModalElement} from "./components/my-modal/index.js";
 
 document.addEventListener('DOMContentLoaded', event => {
     const introductionSection = document.querySelector('section[data-name="introduction"]');
@@ -35,6 +35,11 @@ function onClickLink(event) {
 
     if ('jouer' === sectionName) {
         initializeTypingGame();
+        return;
+    }
+
+    if ('leaderboard' === sectionName) {
+        initializeLeaderboard();
     }
 }
 
@@ -115,5 +120,21 @@ function initializeTypingGame() {
         event.preventDefault();
         event.stopPropagation();
         typingGame.end();
+    }
+}
+
+function initializeLeaderboard() {
+    const section = document.querySelector(`section[data-name="leaderboard"]`);
+    const introductionSection = document.querySelector('section[data-name="introduction"]');
+
+    const backButton = section.querySelector('button[data-name="back"]');
+    backButton.onclick = function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        setTimeout(function() {
+            section.classList.remove('show');
+            introductionSection.classList.add('show');
+        }, 0);
     }
 }

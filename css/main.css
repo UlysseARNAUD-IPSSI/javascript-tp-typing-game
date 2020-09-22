@@ -2,6 +2,7 @@
 
 @import "sections/_introduction.css";
 @import "sections/_jouer.css";
+@import "sections/_leaderboard.css";
 
 html, body {
     overflow-y: auto;
