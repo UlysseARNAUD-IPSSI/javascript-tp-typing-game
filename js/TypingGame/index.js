@@ -56,7 +56,7 @@ export class TypingGame {
 
         this.updateDynamicValues();
 
-        setTimeout(function() {
+        setTimeout(function () {
             const inputMotUtilisateur = document.querySelector('input[name="mot-utilisateur"]');
             inputMotUtilisateur.classList.remove('disabled');
             inputMotUtilisateur.disabled = false;
@@ -327,22 +327,35 @@ export class TypingGame {
             const {target, key} = event;
             const {value, selectionStart} = target;
 
-            if (1 < key.length) return;
+            const specialKeysAllowed = ['Backspace'];
+
+            if (1 < key.length && false === specialKeysAllowed.includes(key)) return;
+
+            let currentValue = value;
+            if (1 === key.length) currentValue = value.substring(0, selectionStart) + key + value.substring(selectionStart);
+            let currentValueWithoutAccent = currentValue.normalize("NFD").replace(/[\u0300-\u036f]/g, '');
 
             const word = document.querySelector('span[data-name="mot-actuel"]').innerHTML;
-            let currentValue = value.substring(0, selectionStart) + key + value.substring(selectionStart);
-            let currentValueWithoutAccent = currentValue.normalize("NFD").replace(/[\u0300-\u036f]/g, '');;
+
+            if ('Backspace' === key) {
+                const currentValueLength = currentValueWithoutAccent.length;
+                currentValueWithoutAccent = currentValueWithoutAccent.substring(0, selectionStart);
+                if (selectionStart !== currentValueLength - 1) {
+                    currentValueWithoutAccent = currentValueWithoutAccent + currentValueWithoutAccent.substring(selectionStart);
+                }
+            }
+
             if (currentValueWithoutAccent !== currentValue) {
-                setTimeout(function() {
+                setTimeout(function () {
                     currentValue = currentValueWithoutAccent.substring(0, selectionStart) + currentValueWithoutAccent.substring(selectionStart);
                     input.value = currentValue;
                 }, 0);
             }
             let currentWordWithoutAccentInLowerCase = currentValueWithoutAccent.toLowerCase();
             if (currentValueWithoutAccent !== currentWordWithoutAccentInLowerCase) {
-                setTimeout(function(){
+                setTimeout(function () {
                     input.value = currentWordWithoutAccentInLowerCase;
-                },0)
+                }, 0)
             }
             if (word === currentWordWithoutAccentInLowerCase) {
                 this.nextWord();
@@ -350,7 +363,7 @@ export class TypingGame {
                     const position = target.selectionStart;
                     input.value = '';
                     input.value = input.value.substring(0, position - 1) + input.value.substring(position + 1);
-                }, 0);
+                }, 1);
             }
         });
     }
