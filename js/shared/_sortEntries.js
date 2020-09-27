@@ -22,7 +22,7 @@ export function sortEntries() {
         const _entries = entriesByNiveau[_niveau];
         const entriesByScore = getEntriesByScore(_entries);
 
-        let _sortedEntries = []
+        let _sortedEntries = [];
 
         for (let _score in entriesByScore) {
             const _entries = entriesByScore[_score];
@@ -42,7 +42,7 @@ export function sortEntries() {
         entriesByNiveau[_niveau] = entriesByScore;
     }
 
-    sortedEntries = sortedEntries.reverse();
+        sortedEntries = sortedEntries.reverse();
 
     return sortedEntries;
 }
