@@ -1,3 +1,61 @@
 <my-modal data-name="jouer" data-title="Lancer le jeu">
-    <button data-name="jouer" class="btn btn-success">Démarrer</button>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <p>Difficultes</p>
+                <div class="btn-group" data-name="difficultes" role="group" aria-label="Difficultés">
+                    <button type="button" class="btn btn-outline-secondary" data-value="facile">
+                        Facile
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" data-value="moyen">
+                        Moyen
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" data-value="difficile">
+                        Difficile
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" data-value="personnalise">
+                        Personnalisé
+                    </button>
+
+                    <input type="radio" name="difficulte" value="facile">
+                    <input type="radio" name="difficulte" value="moyen">
+                    <input type="radio" name="difficulte" value="difficile">
+                    <input type="radio" name="difficulte" value="personnalise">
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3 d-none" data-name="game-config">
+            <form action="#" name="jouer">
+                <div class="col-12">
+                    <label for="seconds-limit">Limite de temps au démarrage</label>
+                    <input type="number" class="form-control" placeholder="15" name="secondsLimit" id="seconds-limit"
+                           aria-label="Limite de temps au démarrage" aria-describedby="seconds-limit">
+                </div>
+                <div class="col-12">
+                    <label for="seconds-limit-min">Limite de temps minimale</label>
+                    <input type="number" class="form-control" placeholder="3" name="secondsLimitMin"
+                           id="seconds-limit-min"
+                           aria-label="Limite de temps minimale" aria-describedby="seconds-limit-min">
+                </div>
+                <div class="col-12">
+                    <label for="score-each-level">Score pour passer chaque niveau</label>
+                    <input type="number" class="form-control" placeholder="8" name="scoreEachLevel"
+                           id="score-each-level"
+                           aria-label="Score pour passer chaque niveau" aria-describedby="score-each-level">
+                </div>
+                <input type="hidden" name="difficulte">
+            </form>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-12">
+                <button data-name="jouer" class="btn btn-success">Démarrer</button>
+            </div>
+        </div>
+
+    </div>
+
 </my-modal>

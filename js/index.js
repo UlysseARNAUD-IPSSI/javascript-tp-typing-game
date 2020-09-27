@@ -1,8 +1,9 @@
-import {TypingGame} from "./TypingGame/index.js";
+// import {TypingGame} from "./TypingGame/index.js";
 import {MyModalElement} from "./components/my-modal/index.js";
 import {generateEntryElement} from "./shared/_generateEntryElement.js";
 import {sortEntries} from "./shared/_sortEntries.js";
 import {getEntries} from "./shared/_getEntries.js";
+import {displayModalJouer} from "./shared/_displayModalJouer.js";
 
 document.addEventListener('DOMContentLoaded', event => {
     const introductionSection = document.querySelector('section[data-name="introduction"]');
@@ -15,8 +16,6 @@ document.addEventListener('DOMContentLoaded', event => {
         const link = links[cursor];
         link.addEventListener('click', event => onClickLink(event));
     }
-
-    window._game = new TypingGame;
 });
 
 function onClickLink(event) {
@@ -31,17 +30,17 @@ function onClickLink(event) {
     const introductionSection = document.querySelector('section[data-name="introduction"]');
     const sectionName = href.substring(href.indexOf("#") + 1);
 
+    if ('jouer' === sectionName) {
+        displayModalJouer();
+        return;
+    }
+
     const section = document.querySelector(`section[data-name="${sectionName}"]`);
     introductionSection.classList.remove('show');
 
     setTimeout(function () {
         section.classList.add('show');
     }, 0);
-
-    if ('jouer' === sectionName) {
-        initializeTypingGame();
-        return;
-    }
 
     if ('leaderboard' === sectionName) {
         initializeLeaderboard();
@@ -51,97 +50,6 @@ function onClickLink(event) {
     if ('statistiques' === sectionName) {
         initializeStatistiques();
         return;
-    }
-}
-
-window.saveScoreFromModalEndGame = function (event, {game = _game} = {}) {
-    const {target} = event;
-
-    const modal = target.closest('my-modal');
-    const form = modal.querySelector('form[data-name="save-score"]');
-    const formData = new FormData(form);
-
-    const submitButton = form.querySelector('button[type="submit"]');
-    submitButton.disabled = true;
-    submitButton.classList.add('disabled');
-
-    const canSave = localStorage.getItem('can-save');
-    console.log({canSave})
-    if ("false" === canSave) {
-        submitButton.innerHTML = "Déjà enregistré !";
-        return;
-    }
-    localStorage.setItem('can-save', false);
-
-    const pseudo = formData.get('pseudo');
-    const score = formData.get('score');
-    const niveau = formData.get('niveau');
-    const date = new Date().getTime();
-
-    if ('' === pseudo) {
-        // TODO: creer une notif / alerte pour prevenir que le pseudo est invalide.
-    }
-
-    const entry = {pseudo, score, niveau, date};
-
-    let entries = getEntries();
-
-    entries.push(entry);
-
-    localStorage.setItem('entries', JSON.stringify(entries));
-
-    submitButton.innerHTML = "Enregistré !";
-}
-
-window.replayGameFromModalEndGame = function (event, {game = _game} = {}) {
-    const {target} = event;
-
-    const modal = target.closest('my-modal');
-
-    modal.remove();
-
-    const messages = [
-        'Faite tout pour vous surpasser !',
-        "C'est reparti !"
-    ];
-    const positionAleatoire = Math.floor(Math.random() * messages.length);
-    const messageAleatoire = messages[positionAleatoire];
-    _game.dynamicValues['status'] = messageAleatoire;
-    _game.start();
-}
-
-window.quitGameFromModalEndGame = function (event, {game = _game} = {}) {
-    const {target} = event;
-
-    const modal = target.closest('my-modal');
-    modal.remove();
-
-    const jouerSection = document.querySelector('section[data-name="jouer"]');
-    const introductionSection = document.querySelector('section[data-name="introduction"]');
-
-    setTimeout(function () {
-        jouerSection.classList.remove('show');
-        introductionSection.classList.add('show');
-    }, 0);
-}
-
-function initializeTypingGame() {
-    const section = document.querySelector(`section[data-name="jouer"]`);
-
-    _game.start();
-
-    const inputMotUtilisateur = section.querySelector('input[name="mot-utilisateur"]');
-    setTimeout(function () {
-        inputMotUtilisateur.disabled = false;
-        inputMotUtilisateur.classList.remove('disabled');
-        inputMotUtilisateur.value = "";
-    }, 0);
-
-    const exitButton = section.querySelector('button[data-name="exit"]');
-    exitButton.onclick = function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        _game.end();
     }
 }
 
