@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Clone du jeu Typing game">
+    <title>Typing game</title>
+
+    <link rel="stylesheet" href="css/main.css" defer>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" defer>
+</head>
+<body>
+
+<section data-name="introduction" class="show">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Typing game</h1>
+                <div class="grid-buttons">
+                    <a href="#jouer">Jouer</a>
+                    <a href="#leaderboard">Tableau des scores</a>
+                    <a href="#statistiques">Statistiques</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-name="jouer">
+    <div class="container">
+        <div class="row row-game-actions mb-5">
+            <div class="col-12">
+                <button class="btn btn-outline-danger" data-name="exit">Quitter</button>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-12">
+                <h1>Typing game</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p>Ecrivez le mot suivant en <span data-name="secondes-limite" data-dynamic></span> secondes : </p>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-12">
+                <p><span data-dynamic data-name="mot-actuel"></span></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-4 col-12">
+                <input class="form-control" type="text" name="mot-utilisateur" placeholder="Commencez à écrire..." autocomplete="off">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-12">
+                <p><span data-dynamic data-name="status">Oh non!</span></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-12">
+                <p>Temps restants : <span data-name="secondes-restantes" data-dynamic></span> secondes</p>
+            </div>
+            <div class="col-md-4 col-12">
+                <p>Niveau : <span data-name="niveau" data-dynamic></span></p>
+            </div>
+            <div class="col-md-4 col-12">
+                <p>Score : <span data-name="score" data-dynamic></span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-name="leaderboard">
+    <div class="container">
+        <div class="row mt-5 mb-5">
+            <div class="col-12">
+                <button class="btn btn-secondary mr-3" data-name="back">< Retour</button>
+                <h1>Tableau des scores</h1>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="btn-group" data-name="difficultes" role="group" aria-label="Difficultés">
+                    <button type="button" class="btn btn-outline-primary" data-value="facile">
+                        Facile
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" data-value="moyen">
+                        Moyen
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" data-value="difficile">
+                        Difficile
+                    </button>
+
+                    <input type="radio" name="difficulte" value="facile">
+                    <input type="radio" name="difficulte" value="moyen">
+                    <input type="radio" name="difficulte" value="difficile">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Pseudo</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Niveau</th>
+                        <th scope="col">Score</th>
+                        <th scope="col">&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section data-name="statistiques">
+    <div class="container">
+        <div class="row mb-5">
+        </div>
+        <div class="row mb-5">
+            <div class="col-12">
+                <button class="btn btn-secondary mr-3" data-name="back">< Retour</button>
+                <h1>Statistiques</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12"></div>
+        </div>
+    </div>
+</section>
+
+<script src="js/index.js" type="module"></script>
+
+</body>
+</html>

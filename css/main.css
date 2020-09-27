@@ -1,0 +1,15 @@
+@import "components/_my-modal.css";
+
+@import "sections/_introduction.css";
+@import "sections/_jouer.css";
+@import "sections/_leaderboard.css";
+@import "sections/_statistiques.css";
+
+html, body {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+section[data-name]:not(.show) {
+    display: none;
+}

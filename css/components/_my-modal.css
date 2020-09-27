@@ -1,0 +1,130 @@
+/**
+Custom styles
+ */
+
+my-modal[data-name="jouer"] input[type="radio"][name="difficulte"] {
+    display: none;
+}
+
+
+
+
+/*
+My-modal element styles
+ */
+
+
+my-modal {
+    /* width: 31.25rem; */
+    display: flex;
+    flex-direction: column;
+    background: #222;
+    color: white;
+    /* font-family: sans-serif; */
+
+    min-width: 26rem;
+
+    position: fixed;
+    z-index: 1000;
+
+    transition: 0ms;
+    transform: translate3d(0,0,0);
+}
+
+my-modal-header {
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+my-modal-title {
+    width: 100%;
+    padding-left: .75rem;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    user-select: none;
+}
+
+my-modal-header-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: inherit;
+}
+
+my-modal-header-actions > button {
+    width: 1rem;
+    height: inherit;
+    padding-right: 100%;
+    position: relative;
+    border: 0;
+}
+
+my-modal-header-actions > button[data-action="close"] {
+    background: red;
+    color: white;
+}
+
+my-modal-header-actions > button[data-action="minimize"] {
+    background: gold;
+    color: black;
+}
+
+my-modal-header-actions > button[data-action="maximize"] {
+    background: dodgerblue;
+    color: white;
+}
+
+my-modal-header-actions > button:before {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+}
+
+my-modal-header-actions > button[data-action="minimize"]:before {
+    content: '_';
+}
+
+my-modal-header-actions > button[data-action="maximize"]:before {
+    content: '[]';
+}
+
+my-modal-header-actions > button[data-action="close"]:before {
+    content: 'x';
+}
+
+my-modal-content {
+    padding: 1rem .75rem 2rem;
+
+    background:  black;
+    color: white;
+    /*font-family: 'Courier New';*/
+    font-size: .9rem;
+
+    /* pointer-events: none; */
+    user-select: none;
+
+    position: relative;
+}
+
+my-modal-content-resize {
+    width: 1rem;
+    height: 1rem;
+    display: block;
+    content: ' ';
+    background: lightgray;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.hide {
+    display: none;
+}

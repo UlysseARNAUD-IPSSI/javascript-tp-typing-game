@@ -1,0 +1,17 @@
+<my-modal data-name="end-game" data-title="Fin de la partie">
+    <form action="#" data-name="save-score">
+        <div class="form-group">
+            <input type="hidden" name="score" id="score">
+            <input type="hidden" name="niveau" id="niveau">
+            <input type="hidden" name="difficulte" id="difficulte">
+            <label for="pseudo">Pseudo</label>
+            <input type="text" name="pseudo" id="pseudo" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary"
+                onclick="event.preventDefault();saveScoreFromModalEndGame(event);return false;">Enregistrer</button>
+        <button type="button" class="btn btn-outline-secondary"
+                onclick="event.preventDefault();replayGameFromModalEndGame(event);return false;">Rejouer</button>
+        <button type="button" class="btn btn-outline-danger"
+                onclick="event.preventDefault();quitGameFromModalEndGame(event);return false;">Quitter</button>
+    </form>
+</my-modal>

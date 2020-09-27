@@ -1,0 +1,12 @@
+section[data-name="jouer"] {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+section[data-name="jouer"] span[data-name="mot-actuel"] {
+    font-size: 2rem;
+}
