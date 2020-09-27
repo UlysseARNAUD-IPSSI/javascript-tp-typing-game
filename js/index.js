@@ -38,6 +38,8 @@ function onClickLink(event) {
     const section = document.querySelector(`section[data-name="${sectionName}"]`);
     introductionSection.classList.remove('show');
 
+    console.log({section, sectionName});
+
     setTimeout(function () {
         section.classList.add('show');
     }, 0);
@@ -93,6 +95,12 @@ function initializeLeaderboard() {
         const entryElement = generateEntryElement();
         entryElement.then(element => {
 
+            if (undefined === entry.difficulte) return;
+
+            element.dataset.difficulte = entry.difficulte;
+
+            element.classList.add('d-none');
+
             const cellPseudo = element.querySelector('td[data-name="pseudo"]');
             const cellDate = element.querySelector('td[data-name="date"]');
             const cellNiveau = element.querySelector('td[data-name="niveau"]');
@@ -106,6 +114,87 @@ function initializeLeaderboard() {
             table.appendChild(element);
         });
     }
+
+    const difficultesButtons = section.querySelectorAll('.btn-group[data-name="difficultes"] .btn');
+    for (
+        let cursor = 0, cursorMax = difficultesButtons.length;
+        cursor < cursorMax;
+        cursor++
+    ) {
+        const button = difficultesButtons[cursor];
+        button.addEventListener('click', toggleDifficulte, true);
+        if (1 === cursor) {
+            button.click();
+        }
+    }
+}
+
+function updateShowEntries(difficulteValue) {
+    const section = document.querySelector(`section[data-name="leaderboard"]`);
+    // const difficulteRadio = section.querySelector('input[type=radio][name="difficulte"]:checked');
+    // const difficulteValue = difficulteRadio.value;
+    console.log({difficulteValue});
+
+    const entriesElement = section.querySelectorAll('tbody tr');
+    for (
+        let cursor = 0, cursorMax = entriesElement.length;
+        cursor < cursorMax;
+        cursor++
+    ) {
+        const entry = entriesElement[cursor];
+        const {difficulte} = entry.dataset;
+
+        if (difficulteValue === difficulte) {
+            setTimeout(function() {
+                entry.classList.remove('d-none');
+            }, 0);
+            continue;
+        }
+
+        setTimeout(function() {
+            entry.classList.add('d-none');
+        }, 0);
+    }
+}
+
+function toggleDifficulte(event) {
+
+    let {target} = event;
+
+    if ('button' === target.nodeName.toLowerCase()) {
+        target = target.closest('.btn');
+    }
+
+    const targetValue = target.dataset.value;
+
+    const section = document.querySelector(`section[data-name="leaderboard"]`);
+
+    const difficultesButtons = section.querySelectorAll('.btn-group[data-name="difficultes"] .btn');
+    for (
+        let cursor = 0, cursorMax = difficultesButtons.length;
+        cursor < cursorMax;
+        cursor++
+    ) {
+        const button = difficultesButtons[cursor];
+        const {value} = button.dataset;
+        const radioAssociated = section.querySelector(`input[type="radio"][name="difficulte"][value="${value}"]`);
+
+        if (button === target) {
+            setTimeout(function () {
+                button.classList.remove('btn-outline-primary');
+                button.classList.add('btn-primary');
+                radioAssociated.checked = true;
+            }, 0);
+            continue;
+        }
+
+        setTimeout(function () {
+            button.classList.add('btn-outline-primary');
+            button.classList.remove('btn-primary');
+        }, 0);
+    }
+
+    updateShowEntries(targetValue);
 }
 
 function initializeStatistiques() {

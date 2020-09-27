@@ -8,6 +8,7 @@ export class TypingGame {
     secondsLimitMin;
     score;
     niveau;
+    difficulte;
 
     words;
     word;
@@ -17,18 +18,20 @@ export class TypingGame {
         // console.log('Appelle du constructeur !', this);
 
         args = {
+            difficulte: 'moyen',
             secondsLimit: 15,
             secondsLimitMin: 3,
             scoreEachLevel: 8,
             ...args
         };
 
-        const {secondsLimit, secondsLimitMin, scoreEachLevel} = args;
+        const {difficulte, secondsLimit, secondsLimitMin, scoreEachLevel} = args;
 
         this.initializeDynamicValues();
 
         this.setScore(0);
         this.setNiveau(0);
+        this.setDifficulte(difficulte);
         this.setScoreEachLevel(scoreEachLevel);
 
         this.setOriginalSecondsLimit(secondsLimit);
@@ -95,6 +98,12 @@ export class TypingGame {
         this.niveau = niveau;
         this.dynamicValues['niveau'] = niveau;
         this.updateDynamicValue('niveau');
+    }
+
+    setDifficulte(difficulte) {
+        this.difficulte = difficulte;
+        /*this.dynamicValues['difficulte'] = difficulte;
+        this.updateDynamicValue('difficulte');*/
     }
 
     setSecondesRestantes(secondesRestantes) {
@@ -263,6 +272,7 @@ export class TypingGame {
 
         const niveau = this.niveau;
         const score = this.score;
+        const difficulte = this.difficulte;
 
         const modalEndGame = generateModalEndGame();
         modalEndGame.then(modal => {
@@ -288,6 +298,12 @@ export class TypingGame {
             if (undefined !== niveauInput) {
                 setTimeout(function () {
                     niveauInput.value = niveau;
+                }, 0);
+            }
+            const difficulteInput = modal.querySelector('input[name="difficulte"][type="hidden"]');
+            if (undefined !== difficulteInput) {
+                setTimeout(function () {
+                    difficulteInput.value = difficulte;
                 }, 0);
             }
         });

@@ -6,3 +6,7 @@ section[data-name="leaderboard"] {
     align-items: center;
     flex-direction: column;
 }
+
+section[data-name="leaderboard"] input[type="radio"][name="difficulte"] {
+    display: none;
+}

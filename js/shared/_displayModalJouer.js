@@ -39,13 +39,22 @@ export function displayModalJouer() {
             const formData = new FormData(form);
             const entries = formData.entries();
             let values = {}
-            let done = false;
+            // let done = false;
             while (true) {
                 const entry = entries.next();
                 if (true === entry.done) break;
-                const [name, value] = entry.value;
-                values[name] = parseInt(value);
+                let [name, value] = entry.value;
+
+                if ('difficulte' !== name) {
+                    value = parseInt(value);
+                }
+
+                if (undefined === values[name]) {
+                    Object.defineProperty(values, name, {value, writable: true, enumerable: true});
+                }
             }
+
+            console.log({values});
 
 
             const introductionSection = document.querySelector('section[data-name="introduction"]');
@@ -197,13 +206,14 @@ window.saveScoreFromModalEndGame = function (event) {
     const pseudo = formData.get('pseudo');
     const score = formData.get('score');
     const niveau = formData.get('niveau');
+    const difficulte = formData.get('difficulte');
     const date = new Date().getTime();
 
     if ('' === pseudo) {
         // TODO: creer une notif / alerte pour prevenir que le pseudo est invalide.
     }
 
-    const entry = {pseudo, score, niveau, date};
+    const entry = {pseudo, difficulte, score, niveau, date};
 
     let entries = getEntries();
 
